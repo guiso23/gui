@@ -1,0 +1,102 @@
+#include <stdio.h>
+#include <time.h>
+#include <stdlib.h>
+#include <stdbool.h>
+
+#define TOTAL_NUMBERS 100
+#define MAX_NUMBER 1000
+
+void insertionSort(int arr[], int n, int *count) {
+    for (int i = 1; i < n; i++) {
+        int key = arr[i];
+        int j = i - 1;
+
+        // Move os elementos do arr[0..i-1] que são maiores que key
+        while (j >= 0 && arr[j] > key) {
+            arr[j + 1] = arr[j];
+            j--;
+            (*count)++; // Incrementa a contagem de comparações
+        }
+        arr[j + 1] = key;
+
+        // Incrementa a contagem quando a condição do while falha
+        (*count)++;
+    }
+}
+
+void printArray(int arr[], int n) {
+    for (int i = 0; i < n; i++) {
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
+}
+
+int main() {
+    clock_t inicio, fim;                                                                                                                                                                           
+    double tempo_gasto;
+    int numero;
+
+    // Código que você deseja medir o tempo
+    inicio = clock();
+
+    // Parte 1: Informações dos alunos
+    printf("Nome: Guilherme Sales do Nascimento Oliveira\n");
+    printf("Matricula: 202403322986\n");
+    printf("Nome: Daniel Barbosa Fernandes\n");
+    printf("Matricula: 202302374387\n");
+    printf("Nome: Bruno Henrique Silva\n");
+    printf("Matricula: 202403372975\n");
+    printf("Nome: Arthur Henrique Miranda de Lima\n");
+    printf("Matricula: 202403440652\n");
+
+    // Solicitar um número 
+    printf("Digite um número: ");
+    scanf("%d", &numero);
+    printf("Digite um número: ");
+    scanf("%d", &numero);
+    printf("Digite um número: ");
+    scanf("%d", &numero);
+    printf("Digite um número: ");
+    scanf("%d", &numero);
+    
+    // Calcula o módulo 3
+    int resultado = numero % 3;
+
+    // Exibe o resultado
+    printf("O resultado de mod 3 é: %d \n", resultado);
+    
+    // Parte 3: Ordenação de um array de números aleatórios
+    int n = TOTAL_NUMBERS; // Tamanho do array
+    int arr[n];
+    int count = 0; // Contador de comparações
+    bool exists[MAX_NUMBER + 1] = {false}; // Array para rastrear números gerados
+
+    // Inicializa o gerador de números aleatórios
+    srand(time(NULL));
+
+    // Gera números aleatórios entre 1 e MAX_NUMBER
+    for (int i = 0; i < n; i++) {
+        int randomNumber;
+        do {
+            randomNumber = rand() % MAX_NUMBER + 1; // Números de 1 a 1000
+        } while (exists[randomNumber]); // Verifica se o número já foi gerado
+        arr[i] = randomNumber;
+        exists[randomNumber] = true; // Marca o número como gerado
+    }
+
+    printf("Array original:\n");
+    printArray(arr, n);
+
+    insertionSort(arr, n, &count);
+
+    printf("Array ordenado:\n");
+    printArray(arr, n);
+    printf("Número de comparações: %d\n", count);
+   
+    // Calcula e imprime o tempo gasto
+    fim = clock();
+    tempo_gasto = (double)(fim - inicio) / CLOCKS_PER_SEC;
+    printf("Tempo gasto: %f segundos\n", tempo_gasto); 
+
+    return 0;
+}
